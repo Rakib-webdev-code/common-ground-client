@@ -54,11 +54,11 @@ function AccountLink({
       onClick={onNavigate}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-brand-cream/75 outline-none transition-colors hover:bg-brand-cream/10 hover:text-brand-cream focus-visible:ring-2 focus-visible:ring-brand-cream",
-        active && "bg-brand-cream/10 text-brand-cream",
+        "flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring",
+        active && "bg-accent text-accent-foreground",
       )}
     >
-      <Icon aria-hidden="true" className="size-4 text-brand-sage" />
+      <Icon aria-hidden="true" className="size-4 text-primary" />
       {label}
     </Link>
   );
@@ -79,13 +79,13 @@ export function MobileNav({
   return (
     <div
       id="mobile-navigation"
-      className="border-t border-brand-cream/10 bg-brand-forest lg:hidden"
+      className="border-t border-border bg-card text-card-foreground lg:hidden"
     >
       <nav
         aria-label="Mobile navigation"
         className="mx-auto max-w-7xl space-y-4 px-4 py-5 sm:px-6"
       >
-        <p className="px-3 text-[0.65rem] font-medium tracking-[0.18em] text-brand-sage uppercase sm:hidden">
+        <p className="px-3 text-[0.65rem] font-medium tracking-[0.18em] text-muted-foreground uppercase sm:hidden">
           Small actions. Stronger communities.
         </p>
 
@@ -94,48 +94,48 @@ export function MobileNav({
           onClick={onNavigate}
           aria-current={pathname === "/events" ? "page" : undefined}
           className={cn(
-            "flex items-center justify-between rounded-xl px-3 py-3 text-sm font-medium text-brand-cream/75 outline-none transition-colors hover:bg-brand-cream/10 hover:text-brand-cream focus-visible:ring-2 focus-visible:ring-brand-cream",
-            pathname === "/events" && "bg-brand-cream/10 text-brand-cream",
+            "flex items-center justify-between rounded-xl px-3 py-3 text-sm font-medium text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring",
+            pathname === "/events" && "bg-accent text-accent-foreground",
           )}
         >
           Upcoming Events
           <span
             aria-hidden="true"
-            className="size-1.5 rounded-full bg-brand-orange"
+            className="size-1.5 rounded-full bg-primary"
           />
         </Link>
 
-        <div className="h-px bg-brand-cream/10" />
+        <div className="h-px bg-border" />
 
         {isLoading ? (
           <div
             role="status"
             aria-live="polite"
-            className="flex items-center gap-3 rounded-2xl border border-brand-cream/10 bg-brand-cream/5 p-3"
+            className="flex items-center gap-3 rounded-2xl border border-border bg-muted/50 p-3"
           >
             <span className="sr-only">Loading account information</span>
             <span
               aria-hidden="true"
-              className="size-10 animate-pulse rounded-full bg-brand-cream/15"
+              className="size-10 animate-pulse rounded-full bg-muted"
             />
             <span className="space-y-2" aria-hidden="true">
-              <span className="block h-2.5 w-28 animate-pulse rounded-full bg-brand-cream/15" />
-              <span className="block h-2 w-36 animate-pulse rounded-full bg-brand-cream/10" />
+              <span className="block h-2.5 w-28 animate-pulse rounded-full bg-muted" />
+              <span className="block h-2 w-36 animate-pulse rounded-full bg-muted" />
             </span>
           </div>
         ) : user ? (
           <div className="space-y-4">
-            <div className="flex items-center gap-3 rounded-2xl border border-brand-cream/10 bg-brand-cream/5 p-3">
+            <div className="flex items-center gap-3 rounded-2xl border border-border bg-muted/50 p-3">
               <UserAvatar
                 name={user.name}
                 image={user.image}
-                className="size-10 bg-brand-sage/25"
+                className="size-10"
               />
               <div className="min-w-0">
-                <p className="truncate font-heading text-base font-semibold text-brand-cream">
+                <p className="truncate font-heading text-base font-semibold text-foreground">
                   {user.name}
                 </p>
-                <p className="truncate text-xs text-brand-cream/60">
+                <p className="truncate text-xs text-muted-foreground">
                   {user.email}
                 </p>
               </div>
@@ -158,7 +158,7 @@ export function MobileNav({
               type="button"
               onClick={onLogout}
               disabled={isLoggingOut}
-              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-brand-cream/20 px-5 py-3 text-sm font-semibold text-brand-cream/80 outline-none transition-colors hover:border-brand-orange hover:bg-brand-orange hover:text-brand-cream focus-visible:ring-2 focus-visible:ring-brand-cream disabled:pointer-events-none disabled:opacity-60"
+              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-border px-5 py-3 text-sm font-semibold text-muted-foreground outline-none transition-colors hover:border-destructive hover:bg-destructive hover:text-white focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-60"
             >
               {isLoggingOut ? (
                 <Loader2 aria-hidden="true" className="size-4 animate-spin" />
@@ -173,16 +173,16 @@ export function MobileNav({
             <Link
               href="/login"
               onClick={onNavigate}
-              className="flex w-full items-center justify-center rounded-full bg-brand-cream px-5 py-3 text-sm font-semibold text-brand-forest outline-none transition-colors hover:bg-brand-sage focus-visible:ring-2 focus-visible:ring-brand-cream focus-visible:ring-offset-2 focus-visible:ring-offset-brand-forest"
+              className="flex w-full items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground outline-none transition-colors hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring"
             >
               Login
             </Link>
-            <p className="text-center text-xs text-brand-cream/60">
+            <p className="text-center text-xs text-muted-foreground">
               New to Common Ground?{" "}
               <Link
                 href="/register"
                 onClick={onNavigate}
-                className="font-semibold text-brand-sage underline-offset-4 outline-none hover:text-brand-cream hover:underline focus-visible:ring-2 focus-visible:ring-brand-cream"
+                className="font-semibold text-primary underline-offset-4 outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Create an account
               </Link>

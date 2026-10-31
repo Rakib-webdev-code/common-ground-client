@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { MobileNav } from "./mobile-nav";
 import { UserMenu } from "./user-menu";
 import { getDisplayName } from "./user-avatar";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 export function Navbar() {
   const { data: session, isPending } = authClient.useSession();
@@ -63,30 +64,32 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-brand-sage/20 bg-brand-forest text-brand-cream shadow-[0_1px_0_rgba(242,235,221,0.04)]">
+    <header className="sticky top-0 z-40 border-b border-border bg-card text-card-foreground shadow-sm">
       <div className="mx-auto flex min-h-20 w-full max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link
           href="/"
           onClick={closeMobile}
-          className="group flex min-w-0 items-center gap-3 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-brand-cream focus-visible:ring-offset-2 focus-visible:ring-offset-brand-forest"
+          className="group flex min-w-0 items-center gap-3 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
         >
           <span
             aria-hidden="true"
-            className="relative flex size-10 shrink-0 items-center justify-center rounded-full border border-brand-cream/25 bg-brand-cream/10 font-heading text-sm font-semibold tracking-[0.08em] text-brand-cream transition-colors group-hover:border-brand-orange/70 sm:size-11"
+            className="relative flex size-10 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/10 font-heading text-sm font-semibold tracking-[0.08em] text-primary transition-colors group-hover:border-primary sm:size-11"
           >
             CG
-            <span className="absolute -top-0.5 -right-0.5 size-2.5 rounded-full bg-brand-orange ring-2 ring-brand-forest" />
+            <span className="absolute -right-0.5 -top-0.5 size-2.5 rounded-full bg-primary ring-2 ring-card" />
           </span>
+
           <span className="flex min-w-0 flex-col">
-            <span className="truncate font-heading text-[0.95rem] leading-none font-semibold tracking-[0.14em] text-brand-cream sm:text-lg sm:tracking-[0.2em]">
+            <span className="truncate font-heading text-[0.95rem] font-semibold leading-none tracking-[0.14em] text-foreground sm:text-lg sm:tracking-[0.2em]">
               COMMON GROUND
             </span>
-            <span className="mt-1.5 hidden truncate text-[0.65rem] leading-none font-medium tracking-[0.22em] text-brand-sage uppercase sm:block">
+            <span className="mt-1.5 hidden truncate text-[0.65rem] font-medium leading-none tracking-[0.22em] text-muted-foreground uppercase sm:block">
               Small actions. Stronger communities.
             </span>
           </span>
         </Link>
 
+        {/* Desktop Navigation */}
         <nav
           aria-label="Primary navigation"
           className="hidden items-center gap-2 lg:flex"
@@ -95,23 +98,26 @@ export function Navbar() {
             href="/events"
             aria-current={eventsActive ? "page" : undefined}
             className={cn(
-              "relative rounded-full px-4 py-2 text-sm font-medium text-brand-cream/75 outline-none transition-colors hover:bg-brand-cream/10 hover:text-brand-cream focus-visible:ring-2 focus-visible:ring-brand-cream",
-              eventsActive && "bg-brand-cream/10 text-brand-cream",
+              "relative rounded-full px-4 py-2 text-sm font-medium text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring",
+              eventsActive && "bg-accent text-accent-foreground",
             )}
           >
             Upcoming Events
+
             {eventsActive && (
               <span
                 aria-hidden="true"
-                className="absolute right-4 -bottom-1 left-4 h-px bg-brand-orange"
+                className="absolute right-4 -bottom-1 left-4 h-0.5 rounded-full bg-primary"
               />
             )}
           </Link>
 
           <span
             aria-hidden="true"
-            className="mx-1 h-5 w-px bg-brand-cream/15"
+            className="mx-1 h-5 w-px bg-border"
           />
+
+          <ThemeToggle />
 
           {isPending ? (
             <div
@@ -121,11 +127,11 @@ export function Navbar() {
               <span className="sr-only">Loading account information</span>
               <span
                 aria-hidden="true"
-                className="size-9 animate-pulse rounded-full bg-brand-cream/15"
+                className="size-9 animate-pulse rounded-full bg-muted"
               />
               <span
                 aria-hidden="true"
-                className="h-2.5 w-10 animate-pulse rounded-full bg-brand-cream/15"
+                className="h-2.5 w-10 animate-pulse rounded-full bg-muted"
               />
             </div>
           ) : user ? (
@@ -135,37 +141,47 @@ export function Navbar() {
                 email={email}
                 image={user.image}
               />
+
               <button
                 type="button"
                 onClick={handleLogout}
                 disabled={isLoggingOut}
-                className="inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-full border border-brand-cream/20 px-4 text-sm font-medium text-brand-cream/80 outline-none transition-colors hover:border-brand-orange hover:bg-brand-orange hover:text-brand-cream focus-visible:ring-2 focus-visible:ring-brand-cream focus-visible:ring-offset-2 focus-visible:ring-offset-brand-forest disabled:pointer-events-none disabled:opacity-60"
+                className="inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-full border border-border px-4 text-sm font-medium text-muted-foreground outline-none transition-colors hover:border-destructive hover:bg-destructive hover:text-white focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-60"
               >
                 {isLoggingOut ? (
                   <Loader2 aria-hidden="true" className="size-4 animate-spin" />
                 ) : (
                   <LogOut aria-hidden="true" className="size-4" />
                 )}
+
                 {isLoggingOut ? "Signing out..." : "Logout"}
               </button>
             </div>
           ) : (
             <Link
               href="/login"
-              className="inline-flex h-10 items-center justify-center rounded-full bg-brand-cream px-5 text-sm font-semibold text-brand-forest outline-none transition-colors hover:bg-brand-sage focus-visible:ring-2 focus-visible:ring-brand-cream focus-visible:ring-offset-2 focus-visible:ring-offset-brand-forest"
+              className="inline-flex h-10 items-center justify-center rounded-full bg-primary px-5 text-sm font-semibold text-primary-foreground outline-none transition-colors hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
             >
               Login
             </Link>
           )}
         </nav>
 
+        {/* Mobile Theme Toggle */}
+        <div className="ml-auto lg:hidden">
+          <ThemeToggle />
+        </div>
+
+        {/* Mobile Menu Button */}
         <button
           type="button"
           onClick={() => setMobileOpen((open) => !open)}
           aria-expanded={mobileOpen}
           aria-controls="mobile-navigation"
-          aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
-          className="inline-flex size-10 cursor-pointer items-center justify-center rounded-full border border-brand-cream/20 text-brand-cream outline-none transition-colors hover:border-brand-orange hover:bg-brand-cream/10 focus-visible:ring-2 focus-visible:ring-brand-cream focus-visible:ring-offset-2 focus-visible:ring-offset-brand-forest lg:hidden"
+          aria-label={
+            mobileOpen ? "Close navigation menu" : "Open navigation menu"
+          }
+          className="inline-flex size-10 cursor-pointer items-center justify-center rounded-full border border-border text-muted-foreground outline-none transition-colors hover:border-primary hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring lg:hidden"
         >
           {mobileOpen ? (
             <X aria-hidden="true" className="size-5" />
@@ -179,9 +195,7 @@ export function Navbar() {
         open={mobileOpen}
         isLoading={isPending}
         user={
-          user
-            ? { name: displayName, email, image: user.image }
-            : null
+          user ? { name: displayName, email, image: user.image } : null
         }
         isLoggingOut={isLoggingOut}
         onLogout={handleLogout}

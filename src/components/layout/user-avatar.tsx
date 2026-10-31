@@ -37,12 +37,12 @@ export function UserAvatar({ name, image, className }: UserAvatarProps) {
     <span
       aria-hidden="true"
       className={cn(
-        "relative flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-sage/25 text-brand-cream",
+        "relative flex shrink-0 items-center justify-center overflow-hidden rounded-full border border-primary/20 bg-primary/10 text-primary",
         className,
       )}
     >
       {imageUrl && !imageFailed ? (
-        // eslint-disable-next-line @next/next/no-img-element -- user-provided avatar URLs can come from any provider.
+        // eslint-disable-next-line @next/next/no-img-element -- User-provided avatar URLs can come from any provider.
         <img
           src={imageUrl}
           alt=""
