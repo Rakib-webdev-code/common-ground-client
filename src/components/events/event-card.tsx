@@ -1,0 +1,70 @@
+
+import Image from "next/image";
+import Link from "next/link";
+
+import type { Event } from "@/lib/types/event";
+import { formatEventDate, formatEventTime } from "@/lib/format";
+
+interface EventCardProps {
+  event: Event;
+}
+
+export default function EventCard({ event }: EventCardProps) {
+  return (
+    <article className="group overflow-hidden rounded-2xl border border-border bg-card transition-all duration-200 hover:-translate-y-1 hover:border-primary/40">
+      <Link
+        href={`/events/${event._id}`}
+        className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        aria-label={`View details for ${event.title}`}
+      >
+        <div className="relative aspect-[16/9] overflow-hidden bg-muted">
+          <Image
+            src={event.thumbnail}
+            alt={event.title}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
+
+        <div className="space-y-4 p-5">
+          <div className="flex items-center justify-between gap-3">
+            <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+              {event.eventType}
+            </span>
+
+            <span className="text-xs text-muted-foreground">
+              {formatEventDate(event.eventDate)}
+            </span>
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="line-clamp-1 text-lg font-semibold text-foreground transition-colors group-hover:text-primary">
+              {event.title}
+            </h3>
+
+            <p className="line-clamp-2 text-sm leading-6 text-muted-foreground">
+              {event.description}
+            </p>
+          </div>
+
+          <div className="flex items-center justify-between gap-3 border-t border-border pt-4 text-sm">
+            <span className="flex min-w-0 items-center gap-2 text-muted-foreground">
+              <span aria-hidden="true">📍</span>
+              <span className="truncate">{event.location}</span>
+            </span>
+
+            <span className="shrink-0 font-medium text-foreground">
+              {formatEventTime(event.eventDate)}
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between text-sm font-semibold text-primary">
+            <span>View Details</span>
+            <span aria-hidden="true">→</span>
+          </div>
+        </div>
+      </Link>
+    </article>
+  );
+}
