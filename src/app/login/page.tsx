@@ -29,6 +29,21 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
+function getCallbackURL() {
+  const params = new URLSearchParams(window.location.search);
+  const callbackURL = params.get("callbackURL");
+
+  if (
+    callbackURL &&
+    callbackURL.startsWith("/") &&
+    !callbackURL.startsWith("//")
+  ) {
+    return callbackURL;
+  }
+
+  return "/";
+}
+
 function GoogleIcon() {
   return (
     <svg viewBox="0 0 48 48" className="size-5" aria-hidden="true">
@@ -145,7 +160,7 @@ export default function LoginPage() {
       const { error } = await authClient.signIn.email({
         email: data.email,
         password: data.password,
-        callbackURL: "/",
+        callbackURL: getCallbackURL(),
       });
 
       if (error) {
@@ -154,7 +169,6 @@ export default function LoginPage() {
       }
 
       toast.success("Welcome back to Common Ground!");
-      router.push("/");
       router.refresh();
     } catch {
       toast.error("Something went wrong. Please try again.");
@@ -167,7 +181,7 @@ export default function LoginPage() {
 
       const { error } = await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/",
+        callbackURL: getCallbackURL(),
       });
 
       if (error) {
