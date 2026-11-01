@@ -1,4 +1,6 @@
+
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
@@ -23,6 +25,20 @@ export const metadata: Metadata = {
     "Create, join and track social service events in your neighborhood.",
 };
 
+function NavbarFallback() {
+  return (
+    <div
+      aria-hidden="true"
+      className="sticky top-0 z-40 min-h-20 border-b border-border bg-card"
+    >
+      <div className="mx-auto flex min-h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="h-10 w-44 animate-pulse rounded-lg bg-muted" />
+        <div className="hidden h-10 w-64 animate-pulse rounded-full bg-muted lg:block" />
+      </div>
+    </div>
+  );
+}
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -43,7 +59,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             Skip to content
           </a>
 
-          <Navbar />
+          <Suspense fallback={<NavbarFallback />}>
+            <Navbar />
+          </Suspense>
 
           <main
             id="main-content"

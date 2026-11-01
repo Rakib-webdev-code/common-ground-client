@@ -96,3 +96,134 @@ export async function getRecentEvents(): Promise<Event[]> {
 
   return apiResponse.data;
 }
+
+
+
+export async function getEvents(): Promise<Event[]> {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
+
+  if (!apiUrl) {
+    throw new Error("API URL is not configured.");
+  }
+
+  let response: Response;
+
+  try {
+    response = await fetch(
+      `${apiUrl.replace(/\/+$/, "")}/api/events`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+        cache: "no-store",
+      },
+    );
+  } catch {
+    throw new Error(
+      "Unable to connect to the events server. Please try again later.",
+    );
+  }
+
+  let result: unknown;
+
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error("The events server returned an invalid response.");
+  }
+
+  if (!response.ok) {
+    const message =
+      isRecord(result) && typeof result.message === "string"
+        ? result.message
+        : "Failed to fetch upcoming events.";
+
+    throw new Error(`Request failed (${response.status}): ${message}`);
+  }
+
+  if (
+    !isRecord(result) ||
+    result.success !== true ||
+    !Array.isArray(result.data)
+  ) {
+    throw new Error("The events server returned an unexpected response.");
+  }
+
+  if (!result.data.every(isEvent)) {
+    throw new Error("The events server returned invalid event data.");
+  }
+
+  return result.data;
+}
+
+
+export async function getEventById(id: string): Promise<Event> {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
+
+  if (!apiUrl) {
+    throw new Error("API URL is not configured.");
+  }
+
+  if (!id.trim()) {
+    throw new Error("Event ID is required.");
+  }
+
+  let response: Response;
+
+  try {
+    response = await fetch(
+      `${apiUrl.replace(/\/+$/, "")}/api/events/${encodeURIComponent(id)}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+        cache: "no-store",
+      },
+    );
+  } catch {
+    throw new Error(
+      "Unable to connect to the events server. Please try again later.",
+    );
+  }
+
+  let result: unknown;
+
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error("The events server returned an invalid response.");
+  }
+
+  if (!response.ok) {
+    const errorMessage =
+      isRecord(result) && typeof result.message === "string"
+        ? result.message
+        : "Failed to fetch event details.";
+
+    const apiError: ApiError = {
+      success: false,
+      message: errorMessage,
+    };
+
+    throw new Error(
+      `Request failed (${response.status}): ${apiError.message}`,
+    );
+  }
+
+  if (
+    !isRecord(result) ||
+    result.success !== true ||
+    !isEvent(result.data)
+  ) {
+    throw new Error("The events server returned invalid event data.");
+  }
+
+  const apiResponse: ApiSuccess<Event> = {
+    success: true,
+    data: result.data,
+  };
+
+  return apiResponse.data;
+}
