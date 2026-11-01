@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useRouter } from "next/navigation";
@@ -7,11 +8,13 @@ import {
   CalendarCog,
   CalendarPlus,
   ChevronDown,
+  UserRound,
   type LucideIcon,
 } from "lucide-react";
 import { UserAvatar } from "./user-avatar";
 
 const accountLinks = [
+  { href: "/profile", label: "My Profile", icon: UserRound },
   { href: "/events/create", label: "Create Event", icon: CalendarPlus },
   { href: "/events/manage", label: "Manage Events", icon: CalendarCog },
   { href: "/events/joined", label: "Joined Events", icon: CalendarCheck },
