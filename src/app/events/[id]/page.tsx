@@ -14,7 +14,7 @@ import {
 
 import { getEventById } from "@/lib/api";
 import { formatEventDate, formatEventTime } from "@/lib/format";
-import { Button } from "@/components/ui/button";
+import JoinEventButton from "@/components/events/join-event-button";
 import {
   Card,
   CardContent,
@@ -218,13 +218,7 @@ async function EventDetailsContent({
               </div>
 
               <div className="border-t pt-5">
-                <Button className="w-full" disabled>
-                  Join Event
-                </Button>
-
-                <p className="mt-2 text-center text-xs text-muted-foreground">
-                  Event registration will be available soon.
-                </p>
+                <JoinEventButton eventId={event._id} />
               </div>
             </CardContent>
           </Card>

@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { connection } from "next/server";
 import Link from "next/link";
 import { ArrowRight, CalendarDays } from "lucide-react";
 
@@ -35,6 +36,8 @@ function EventsLoading() {
 }
 
 async function EventsContent() {
+  await connection();
+
   const { events, hasError } = await loadEvents();
 
   if (hasError) {

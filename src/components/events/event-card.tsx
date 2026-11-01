@@ -7,9 +7,17 @@ import { formatEventDate, formatEventTime } from "@/lib/format";
 
 interface EventCardProps {
   event: Event;
+  showActions?: boolean;
+  onDelete?: (event: Event) => void;
+  isDeleting?: boolean;
 }
 
-export default function EventCard({ event }: EventCardProps) {
+export default function EventCard({
+  event,
+  showActions = false,
+  onDelete,
+  isDeleting = false,
+}: EventCardProps) {
   return (
     <article className="group overflow-hidden rounded-2xl border border-border bg-card transition-all duration-200 hover:-translate-y-1 hover:border-primary/40">
       <Link
@@ -59,12 +67,34 @@ export default function EventCard({ event }: EventCardProps) {
             </span>
           </div>
 
-          <div className="flex items-center justify-between text-sm font-semibold text-primary">
-            <span>View Details</span>
-            <span aria-hidden="true">→</span>
-          </div>
+          {!showActions && (
+            <div className="flex items-center justify-between text-sm font-semibold text-primary">
+              <span>View Details</span>
+              <span aria-hidden="true">→</span>
+            </div>
+          )}
         </div>
       </Link>
+
+      {showActions && (
+        <div className="flex gap-3 border-t border-border px-5 py-4">
+          <Link
+            href={`/events/manage/edit/${event._id}`}
+            className="flex-1 rounded-full border border-border px-4 py-2 text-center text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            Edit
+          </Link>
+
+          <button
+            type="button"
+            disabled={isDeleting}
+            onClick={() => onDelete?.(event)}
+            className="flex-1 rounded-full border border-destructive/40 px-4 py-2 text-sm font-semibold text-destructive transition-colors hover:bg-destructive/10 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {isDeleting ? "Deleting..." : "Delete"}
+          </button>
+        </div>
+      )}
     </article>
   );
 }
