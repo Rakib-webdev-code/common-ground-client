@@ -1,10 +1,18 @@
+
 "use client";
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Loader2, LogOut, Menu, X } from "lucide-react";
+import {
+  LayoutDashboard,
+  Loader2,
+  LogOut,
+  Menu,
+  X,
+} from "lucide-react";
 import { toast } from "sonner";
+
 import { authClient } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { MobileNav } from "./mobile-nav";
@@ -22,7 +30,9 @@ export function Navbar() {
   const user = session?.user;
   const displayName = user ? getDisplayName(user.name, user.email) : "";
   const email = user?.email ?? "";
+
   const eventsActive = pathname === "/events";
+  const dashboardActive = pathname === "/dashboard";
 
   const closeMobile = () => setMobileOpen(false);
 
@@ -112,10 +122,21 @@ export function Navbar() {
             )}
           </Link>
 
-          <span
-            aria-hidden="true"
-            className="mx-1 h-5 w-px bg-border"
-          />
+          {!isPending && user && (
+            <Link
+              href="/dashboard"
+              aria-current={dashboardActive ? "page" : undefined}
+              className={cn(
+                "inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring",
+                dashboardActive && "bg-accent text-accent-foreground",
+              )}
+            >
+              <LayoutDashboard aria-hidden="true" className="size-4" />
+              Dashboard
+            </Link>
+          )}
+
+          <span aria-hidden="true" className="mx-1 h-5 w-px bg-border" />
 
           <ThemeToggle />
 

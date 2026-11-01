@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -6,8 +7,10 @@ import {
   CalendarCheck,
   CalendarCog,
   CalendarPlus,
+  LayoutDashboard,
   Loader2,
   LogOut,
+  UserRound,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "./user-avatar";
@@ -28,6 +31,8 @@ type MobileNavProps = {
 };
 
 const accountLinks = [
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/profile", label: "My Profile", icon: UserRound },
   { href: "/events/create", label: "Create Event", icon: CalendarPlus },
   { href: "/events/manage", label: "Manage Events", icon: CalendarCog },
   { href: "/events/joined", label: "Joined Events", icon: CalendarCheck },
@@ -36,7 +41,7 @@ const accountLinks = [
 type AccountLinkProps = {
   href: string;
   label: string;
-  icon: typeof CalendarPlus;
+  icon: (typeof accountLinks)[number]["icon"];
   active: boolean;
   onNavigate: () => void;
 };
@@ -177,6 +182,7 @@ export function MobileNav({
             >
               Login
             </Link>
+
             <p className="text-center text-xs text-muted-foreground">
               New to Common Ground?{" "}
               <Link

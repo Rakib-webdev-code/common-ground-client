@@ -350,3 +350,100 @@ export async function getEventById(id: string): Promise<Event> {
 
   return apiResponse.data;
 }
+
+
+export interface DashboardStats {
+  totalEvents: number;
+  upcomingEvents: number;
+  totalParticipants: number;
+  myCreatedEvents: number;
+  myJoinedEvents: number;
+}
+
+export async function getDashboardStats(
+  token: string,
+): Promise<DashboardStats> {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
+
+  if (!apiUrl) {
+    throw new Error("API URL is not configured.");
+  }
+
+  if (!token.trim()) {
+    throw new Error("Authentication token is required.");
+  }
+
+  let response: Response;
+
+  try {
+    response = await fetch(
+      `${apiUrl.replace(/\/+$/, "")}/api/dashboard/stats`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      },
+    );
+  } catch {
+    throw new Error(
+      "Unable to connect to the dashboard server. Please try again later.",
+    );
+  }
+
+  let result: unknown;
+
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error("The dashboard server returned an invalid response.");
+  }
+
+  if (!response.ok) {
+    const message =
+      isRecord(result) && typeof result.message === "string"
+        ? result.message
+        : "Failed to fetch dashboard statistics.";
+
+    throw new Error(`Request failed (${response.status}): ${message}`);
+  }
+
+  if (
+    !isRecord(result) ||
+    result.success !== true ||
+    !isRecord(result.data)
+  ) {
+    throw new Error("The dashboard server returned an unexpected response.");
+  }
+
+  const data = result.data;
+
+  const statKeys: (keyof DashboardStats)[] = [
+    "totalEvents",
+    "upcomingEvents",
+    "totalParticipants",
+    "myCreatedEvents",
+    "myJoinedEvents",
+  ];
+
+  if (
+    !statKeys.every(
+      (key) =>
+        typeof data[key] === "number" &&
+        Number.isInteger(data[key]) &&
+        (data[key] as number) >= 0,
+    )
+  ) {
+    throw new Error("The dashboard server returned invalid statistics.");
+  }
+
+  return {
+    totalEvents: data.totalEvents as number,
+    upcomingEvents: data.upcomingEvents as number,
+    totalParticipants: data.totalParticipants as number,
+    myCreatedEvents: data.myCreatedEvents as number,
+    myJoinedEvents: data.myJoinedEvents as number,
+  };
+}
