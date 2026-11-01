@@ -97,8 +97,6 @@ export async function getRecentEvents(): Promise<Event[]> {
   return apiResponse.data;
 }
 
-
-
 export async function getEvents(): Promise<Event[]> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
 
@@ -156,7 +154,6 @@ export async function getEvents(): Promise<Event[]> {
 
   return result.data;
 }
-
 
 export async function getMyEvents(token: string): Promise<Event[]> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
@@ -221,7 +218,68 @@ export async function getMyEvents(token: string): Promise<Event[]> {
   return result.data;
 }
 
+export async function getJoinedEvents(token: string): Promise<Event[]> {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
 
+  if (!apiUrl) {
+    throw new Error("API URL is not configured.");
+  }
+
+  if (!token.trim()) {
+    throw new Error("Authentication token is required.");
+  }
+
+  let response: Response;
+
+  try {
+    response = await fetch(
+      `${apiUrl.replace(/\/+$/, "")}/api/events/joined`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      },
+    );
+  } catch {
+    throw new Error(
+      "Unable to connect to the events server. Please try again later.",
+    );
+  }
+
+  let result: unknown;
+
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error("The events server returned an invalid response.");
+  }
+
+  if (!response.ok) {
+    const message =
+      isRecord(result) && typeof result.message === "string"
+        ? result.message
+        : "Failed to fetch your joined events.";
+
+    throw new Error(`Request failed (${response.status}): ${message}`);
+  }
+
+  if (
+    !isRecord(result) ||
+    result.success !== true ||
+    !Array.isArray(result.data)
+  ) {
+    throw new Error("The events server returned an unexpected response.");
+  }
+
+  if (!result.data.every(isEvent)) {
+    throw new Error("The events server returned invalid event data.");
+  }
+
+  return result.data;
+}
 
 export async function getEventById(id: string): Promise<Event> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
