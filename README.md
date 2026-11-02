@@ -1,36 +1,144 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Common Ground
 
-## Getting Started
+**Small actions. Stronger communities.**
 
-First, run the development server:
+Common Ground is a community event platform that helps people discover local events, participate in meaningful activities, and organize initiatives that bring communities together.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+🌐 **Live Website:** https://common-ground-client.vercel.app
+
+🖥️ **Backend API:** https://common-ground-server.vercel.app
+
+## ✨ Features
+
+- **User Authentication:** Register and sign in using email/password or Google authentication.
+- **Discover Events:** Explore upcoming community events with search, filtering, and sorting options.
+- **Create Events:** Authenticated users can organize and publish community events.
+- **Event Details:** View event information, including descriptions, locations, dates, and event categories.
+- **Join Events:** Registered users can join upcoming events while preventing duplicate registrations.
+- **Manage Events:** Organizers can edit and delete their own events.
+- **Joined Events:** View and track events you have registered to attend.
+- **User Profile:** View and update your profile name and profile picture.
+- **Community Impact Dashboard:** Explore community statistics, including events, participants, and personal contributions.
+- **Responsive Design:** Enjoy a consistent experience across mobile, tablet, and desktop devices.
+- **Dark & Light Themes:** Switch between dark and light modes.
+- **Loading Skeletons:** Improved loading experiences across important pages.
+
+## 🛠️ Technologies Used
+
+### Frontend
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Better Auth
+- React Hot Toast
+- Lucide React
+
+### Backend & Database
+- Node.js
+- Express.js
+- MongoDB
+- Better Auth JWT
+- JOSE
+
+### Tools & Deployment
+- Git & GitHub
+- Vercel
+
+## 🚀 Getting Started
+
+Follow these steps to run the frontend locally.
+
+### Prerequisites
+
+- Node.js
+- npm
+- Git
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/Rakib-webdev-code/common-ground-client.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd common-ground-client
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Create a `.env.local` file in the project root and configure the required environment variables:
+
+   ```env
+   NEXT_PUBLIC_API_URL=https://common-ground-server.vercel.app
+   BETTER_AUTH_URL=http://localhost:3000
+   ```
+
+   Configure your Better Auth secret and Google OAuth credentials according to your local development setup. Never commit secret values to GitHub.
+
+5. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+6. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+**Note:** The backend API must also be configured and running for event and dashboard data operations.
+
+## 📁 Project Structure
+
+```text
+common-ground-client/
+├── public/
+├── src/
+│   ├── app/
+│   │   ├── dashboard/
+│   │   ├── events/
+│   │   ├── profile/
+│   │   ├── login/
+│   │   ├── register/
+│   │   └── ...
+│   ├── components/
+│   │   ├── home/
+│   │   ├── layout/
+│   │   └── ...
+│   └── lib/
+├── package.json
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔐 Authentication & Security
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Better Auth handles user authentication.
+- Protected operations require a valid authentication token.
+- The backend verifies JWTs using Better Auth's JWKS endpoint.
+- Event management operations enforce event ownership.
+- Duplicate event registrations are prevented by the backend.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🌍 Deployment
 
-## Learn More
+The frontend is deployed on Vercel.
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend:** https://common-ground-client.vercel.app
+- **Backend:** https://common-ground-server.vercel.app
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 👨‍💻 Developer
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Md. Rakib**
 
-## Deploy on Vercel
+- GitHub: [Rakib-webdev-code](https://github.com/Rakib-webdev-code)
+- Portfolio: [About Me](https://rakib-webdev-code.github.io/About-Me/)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with ❤️ to encourage community participation and meaningful connections.
