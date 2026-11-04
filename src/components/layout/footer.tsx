@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { cacheLife } from "next/cache";
 import { ArrowUpRight, HeartHandshake, Mail, MoveUpRight } from "lucide-react";
@@ -113,6 +114,7 @@ export async function Footer() {
             </h2>
 
             <div className="mt-6 space-y-5">
+              {/* GitHub */}
               <a
                 href="https://github.com/Rakib-webdev-code"
                 target="_blank"
@@ -130,10 +132,34 @@ export async function Footer() {
                 <MoveUpRight size={13} aria-hidden="true" />
               </a>
 
+              {/* X / Twitter */}
+              <a
+                href="https://x.com/IslamTamim5867"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit X profile (opens in a new tab)"
+                className={linkClassName}
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="17"
+                  height="17"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  className="shrink-0"
+                >
+                  <path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-5-8.1L4.8 22H1.6l7.3-8.4L1 2h6.5l4.5 7.5L18.9 2Zm-1.1 18h1.7L6.4 3.9H4.6L17.8 20Z" />
+                </svg>
+                <span>X Profile</span>
+                <MoveUpRight size={13} aria-hidden="true" />
+              </a>
+
+              {/* Email */}
               <a
                 href="https://mail.google.com/mail/?view=cm&fs=1&to=tamimislam100100@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Send an email (opens in a new tab)"
                 className={linkClassName}
               >
                 <Mail size={17} aria-hidden="true" />
