@@ -1,4 +1,7 @@
 
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -18,21 +21,43 @@ export default function EventCard({
   onDelete,
   isDeleting = false,
 }: EventCardProps) {
+  const [imageError, setImageError] = useState(false);
+  const hasThumbnail =
+    typeof event.thumbnail === "string" &&
+    event.thumbnail.trim().length > 0 &&
+    !imageError;
+
   return (
     <article className="group overflow-hidden rounded-2xl border border-border bg-card transition-all duration-200 hover:-translate-y-1 hover:border-primary/40">
       <Link
         href={`/events/${event._id}`}
         className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        aria-label={`View details for ${event.title}`}
+        aria-label={`View event: ${event.title}`}
       >
         <div className="relative aspect-[16/9] overflow-hidden bg-muted">
-          <Image
-            src={event.thumbnail}
-            alt={event.title}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-          />
+          {hasThumbnail ? (
+            <Image
+              src={event.thumbnail}
+              alt={event.title}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              onError={() => setImageError(true)}
+            />
+          ) : (
+            <div
+              className="flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-primary/10 via-muted to-primary/5 text-muted-foreground"
+              role="img"
+              aria-label="Event image unavailable"
+            >
+              <span className="text-3xl" aria-hidden="true">
+                Image
+              </span>
+              <span className="text-sm font-medium">
+                Image unavailable
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="space-y-4 p-5">
@@ -69,7 +94,7 @@ export default function EventCard({
 
           {!showActions && (
             <div className="flex items-center justify-between text-sm font-semibold text-primary">
-              <span>View Details</span>
+              <span>View Event</span>
               <span aria-hidden="true">→</span>
             </div>
           )}

@@ -1,5 +1,5 @@
 
-import Image from "next/image";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
@@ -15,6 +15,7 @@ import {
 import { getEventById } from "@/lib/api";
 import { formatEventDate, formatEventTime } from "@/lib/format";
 import JoinEventButton from "@/components/events/join-event-button";
+import EventDetailImage from "@/components/events/event-detail-image";
 import {
   Card,
   CardContent,
@@ -27,9 +28,60 @@ interface EventDetailsPageProps {
   params: Promise<{ id: string }>;
 }
 
+export async function generateMetadata({
+  params,
+}: EventDetailsPageProps): Promise<Metadata> {
+  const { id } = await params;
+
+  try {
+    const event = await getEventById(id);
+
+    const title = `${event.title} | Common Ground`;
+    const description =
+      event.description?.slice(0, 160) ||
+      `Discover and join this ${event.eventType} community event on Common Ground.`;
+
+    const eventUrl = `https://common-ground-client.vercel.app/events/${id}`;
+
+    return {
+      title,
+      description,
+      alternates: {
+        canonical: `/events/${id}`,
+      },
+      openGraph: {
+        title,
+        description,
+        url: eventUrl,
+        siteName: "Common Ground",
+        type: "article",
+        images: event.thumbnail
+          ? [{ url: event.thumbnail, alt: event.title }]
+          : [],
+      },
+      twitter: {
+        card: event.thumbnail ? "summary_large_image" : "summary",
+        title,
+        description,
+        images: event.thumbnail ? [event.thumbnail] : [],
+      },
+    };
+  } catch {
+    return {
+      title: "Event Details | Common Ground",
+      description:
+        "Explore community events and find meaningful ways to connect with people.",
+      robots: {
+        index: false,
+        follow: true,
+      },
+    };
+  }
+}
+
 function EventDetailsLoading() {
   return (
-    <main className="container mx-auto flex min-h-[60vh] max-w-6xl items-center justify-center px-4">
+    <div className="container mx-auto flex min-h-[60vh] max-w-6xl items-center justify-center px-4">
       <div className="w-full max-w-md space-y-4">
         <div className="h-5 w-40 animate-pulse rounded bg-muted" />
         <div className="aspect-[16/9] animate-pulse rounded-2xl bg-muted" />
@@ -41,7 +93,7 @@ function EventDetailsLoading() {
           Loading event details...
         </p>
       </div>
-    </main>
+    </div>
   );
 }
 
@@ -60,7 +112,7 @@ async function EventDetailsContent({
     }
 
     return (
-      <main className="container mx-auto max-w-5xl px-4 py-16">
+      <div className="container mx-auto max-w-5xl px-4 py-16">
         <Card>
           <CardContent className="py-10 text-center">
             <h1 className="text-xl font-semibold">
@@ -82,12 +134,12 @@ async function EventDetailsContent({
             </Link>
           </CardContent>
         </Card>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="container mx-auto max-w-6xl px-4 py-8 sm:py-12">
+    <div className="container mx-auto max-w-6xl px-4 py-8 sm:py-12">
       <Link
         href="/events"
         className="mb-6 inline-flex h-10 items-center justify-center rounded-md px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
@@ -99,13 +151,9 @@ async function EventDetailsContent({
       <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
         <div className="min-w-0">
           <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border bg-muted">
-            <Image
+            <EventDetailImage
               src={event.thumbnail}
               alt={event.title}
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 800px"
-              className="object-cover"
             />
           </div>
 
@@ -212,7 +260,7 @@ async function EventDetailsContent({
                     Event Type
                   </p>
                   <p className="text-sm font-semibold">
-                    Community Event
+                    {event.eventType}
                   </p>
                 </div>
               </div>
@@ -224,7 +272,7 @@ async function EventDetailsContent({
           </Card>
         </aside>
       </div>
-    </main>
+    </div>
   );
 }
 

@@ -108,7 +108,7 @@ export default function UpcomingEventsPage() {
   }, [events, search, category, sort]);
 
   return (
-    <main className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="mb-10 space-y-3 text-center">
           <span className="inline-flex rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
@@ -241,6 +241,6 @@ export default function UpcomingEventsPage() {
           </div>
         )}
       </section>
-    </main>
+    </div>
   );
 }

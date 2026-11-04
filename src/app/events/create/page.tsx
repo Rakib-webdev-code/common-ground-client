@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -50,6 +51,7 @@ export default function CreateEventPage() {
       router.replace("/login?callbackURL=/events/create");
     }
   }, [isPending, session, router]);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -107,7 +109,8 @@ export default function CreateEventPage() {
 
       toast.success("Your event has been created successfully!");
 
-      router.push(`/events/${result.data._id}`);
+      // Redirect to Upcoming Events after successful creation
+      router.push("/events");
       router.refresh();
     } catch (error) {
       console.error("Create event error:", error);
@@ -121,6 +124,7 @@ export default function CreateEventPage() {
       setIsSubmitting(false);
     }
   };
+
   if (isPending || !session) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">

@@ -1,5 +1,5 @@
-
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { Suspense } from "react";
 import { Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 import "./globals.css";
@@ -20,9 +20,31 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Common Ground | Community Events Platform",
+  metadataBase: new URL("https://common-ground-client.vercel.app"),
+
+  title: {
+    default: "Common Ground | Community Events Platform",
+    template: "%s",
+  },
+
   description:
-    "Create, join and track social service events in your neighborhood.",
+    "Discover local community events, connect with people, volunteer, and make a positive impact. Small actions. Stronger communities.",
+
+  openGraph: {
+    title: "Common Ground | Community Events Platform",
+    description:
+      "Small actions. Stronger communities. Discover, create, and join meaningful community events with Common Ground.",
+    siteName: "Common Ground",
+    url: "https://common-ground-client.vercel.app",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Common Ground | Community Events Platform",
+    description:
+      "Discover local community events and make a positive impact with Common Ground.",
+  },
 };
 
 function NavbarFallback() {
@@ -39,7 +61,11 @@ function NavbarFallback() {
   );
 }
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
     <html
       lang="en"

@@ -1,4 +1,5 @@
 
+import Link from "next/link";
 import { ArrowRight, Mail } from "lucide-react";
 
 export default function NewsletterSection() {
@@ -21,35 +22,21 @@ export default function NewsletterSection() {
             </h2>
 
             <p className="mt-4 text-base leading-7 text-muted-foreground">
-              Stay inspired and discover upcoming community events,
-              meaningful opportunities, and stories of positive change.
+              Discover upcoming community events, meaningful
+              opportunities, and stories of positive change.
+              Find your next opportunity to make a difference.
             </p>
 
-            <div className="mx-auto mt-8 flex max-w-xl flex-col gap-3 sm:flex-row">
-              <label htmlFor="newsletter-email" className="sr-only">
-                Email address
-              </label>
+            <Link
+              href="/events"
+              className="mx-auto mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-primary px-7 text-sm font-semibold text-primary-foreground transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              Explore Upcoming Events
+              <ArrowRight size={16} aria-hidden="true" />
+            </Link>
 
-              <input
-                id="newsletter-email"
-                type="email"
-                placeholder="Enter your email address"
-                autoComplete="email"
-                className="h-12 min-w-0 flex-1 rounded-full border border-border bg-background px-5 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20"
-              />
-
-              <button
-                type="button"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-              >
-                Subscribe
-                <ArrowRight size={16} aria-hidden="true" />
-              </button>
-            </div>
-
-            <p className="mt-4 text-xs text-muted-foreground">
-              Stay connected with your community. No backend subscription is
-              configured for this assignment.
+            <p className="mt-5 text-xs text-muted-foreground">
+              Small actions. Stronger communities. Be part of the change.
             </p>
           </div>
         </div>

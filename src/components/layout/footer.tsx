@@ -113,7 +113,7 @@ export async function Footer() {
               Connect
             </h2>
 
-            <div className="mt-6 space-y-5">
+            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-4">
               {/* GitHub */}
               <a
                 href="https://github.com/Rakib-webdev-code"
