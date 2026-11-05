@@ -10,18 +10,25 @@ Common Ground is a community event platform that helps people discover local eve
 
 ## ✨ Features
 
-- **User Authentication:** Register and sign in using email/password or Google authentication.
+### Community & Events
 - **Discover Events:** Explore upcoming community events with search, filtering, and sorting options.
 - **Create Events:** Authenticated users can organize and publish community events.
-- **Event Details:** View event information, including descriptions, locations, dates, and event categories.
+- **Event Details:** View event descriptions, locations, dates, categories, and organizer information.
 - **Join Events:** Registered users can join upcoming events while preventing duplicate registrations.
 - **Manage Events:** Organizers can edit and delete their own events.
 - **Joined Events:** View and track events you have registered to attend.
-- **User Profile:** View and update your profile name and profile picture.
-- **Community Impact Dashboard:** Explore community statistics, including events, participants, and personal contributions.
-- **Responsive Design:** Enjoy a consistent experience across mobile, tablet, and desktop devices.
+
+### User Experience
+- **User Authentication:** Register and sign in using email/password or Google authentication.
+- **User Profile:** View and update profile information, including name and profile picture.
+- **Community Impact Dashboard:** Explore community statistics, events, participants, and personal contributions.
+- **Responsive Design:** Optimized for mobile, tablet, and desktop devices.
 - **Dark & Light Themes:** Switch between dark and light modes.
 - **Loading Skeletons:** Improved loading experiences across important pages.
+- **Image Fallbacks:** Better handling of unavailable or failed images.
+- **SEO Optimization:** Improved metadata and social sharing information.
+- **Newsletter UI:** A subscription form design for community updates. Email submission and backend subscription functionality are not currently configured.
+- **Community Updates:** Discover upcoming events through the homepage.
 
 ## 🛠️ Technologies Used
 
@@ -83,7 +90,9 @@ Follow these steps to run the frontend locally.
    BETTER_AUTH_URL=http://localhost:3000
    ```
 
-   Configure your Better Auth secret and Google OAuth credentials according to your local development setup. Never commit secret values to GitHub.
+   Configure the remaining Better Auth secret, database connection, and Google OAuth credentials according to your local development environment.
+
+   Never commit secret values or credentials to GitHub.
 
 5. Start the development server:
 
@@ -91,7 +100,7 @@ Follow these steps to run the frontend locally.
    npm run dev
    ```
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser.
+6. Open http://localhost:3000 in your browser.
 
 **Note:** The backend API must also be configured and running for event and dashboard data operations.
 
@@ -124,6 +133,7 @@ common-ground-client/
 - The backend verifies JWTs using Better Auth's JWKS endpoint.
 - Event management operations enforce event ownership.
 - Duplicate event registrations are prevented by the backend.
+- Sensitive credentials are stored in environment variables.
 
 ## 🌍 Deployment
 
